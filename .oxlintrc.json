@@ -9,9 +9,9 @@
     "lobomfz/no-empty-object-default": "error",
     "lobomfz/prefer-interface-extends": "error",
     "lobomfz/no-error-instance-narrowing": "error",
+    "lobomfz/no-export-function": "error",
     "lobomfz/no-ternary-as-optional-chain": "error",
     "lobomfz/no-ternary-in-jsx": "error",
-    "lobomfz/no-explicit-return-type": "off",
 
     "no-unused-vars": "warn",
     "no-await-in-loop": "off",

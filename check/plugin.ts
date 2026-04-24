@@ -4,7 +4,7 @@ import { noAwaitInIfTest } from "./rules/no-await-in-if-test/rule.ts";
 import { noCompoundBooleanReturn } from "./rules/no-compound-boolean-return/rule.ts";
 import { noEmptyObjectDefault } from "./rules/no-empty-object-default/rule.ts";
 import { noErrorInstanceNarrowing } from "./rules/no-error-instance-narrowing/rule.ts";
-import { noExplicitReturnType } from "./rules/no-explicit-return-type/rule.ts";
+import { noExportFunction } from "./rules/no-export-function/rule.ts";
 import { noNullishTypeLaundering } from "./rules/no-nullish-type-laundering/rule.ts";
 import { noTernaryAsOptionalChain } from "./rules/no-ternary-as-optional-chain/rule.ts";
 import { noTernaryInJsx } from "./rules/no-ternary-in-jsx/rule.ts";
@@ -24,9 +24,9 @@ const plugin: Plugin = {
     "no-empty-object-default": noEmptyObjectDefault,
     "prefer-interface-extends": preferInterfaceExtends,
     "no-error-instance-narrowing": noErrorInstanceNarrowing,
+    "no-export-function": noExportFunction,
     "no-ternary-as-optional-chain": noTernaryAsOptionalChain,
     "no-ternary-in-jsx": noTernaryInJsx,
-    "no-explicit-return-type": noExplicitReturnType,
   },
 };
 

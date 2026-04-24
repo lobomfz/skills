@@ -611,6 +611,7 @@ function isUsedViaTypeSymbol(
   return false
 }
 
+// oxlint-disable-next-line lobomfz/no-export-function -- check runner imports this standalone ts-morph pass
 export function runUnusedReturnFieldsCheck(cwd: string) {
   const project = new Project({
     tsConfigFilePath: resolve(cwd, 'tsconfig.json'),
