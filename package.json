@@ -1,0 +1,34 @@
+{
+  "name": "@lobomfz/check",
+  "version": "0.1.0",
+  "author": "lobomfz",
+  "type": "module",
+  "scripts": {
+    "install:claude-skills": "bun ./scripts/install-claude-skills.ts"
+  },
+  "files": [
+    "RULES.md",
+    "skills",
+    "scripts",
+    "check",
+    ".oxlintrc.json",
+    "knip.json"
+  ],
+  "bin": {
+    "lobomfz-check": "./check/bin/check.ts"
+  },
+  "exports": {
+    "./oxlintrc": "./.oxlintrc.json",
+    "./check/plugin": "./check/plugin.ts"
+  },
+  "dependencies": {
+    "ts-morph": "^28.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.12",
+    "@types/estree": "^1.0.8",
+    "@typescript/native-preview": "^7.0.0-dev.20251111.1",
+    "oxlint": "^1.61.0",
+    "oxlint-tsgolint": "^0.21.1"
+  }
+}

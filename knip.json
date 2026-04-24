@@ -1,0 +1,9 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "project": ["check/**/*.ts"],
+  "ignoreDependencies": [
+    "@typescript/native-preview",
+    "oxlint",
+    "oxlint-tsgolint"
+  ]
+}
