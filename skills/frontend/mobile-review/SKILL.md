@@ -14,7 +14,7 @@ Use this for read-only analysis. Do not edit application code.
 - `references/red-flags.md`: detection rules, severity, direct fixes vs layout decisions.
 - `references/per-component-grill.md`: user-facing question templates and plan format.
 
-Read only the reference needed for the current step.
+Read `references/red-flags.md` before classifying findings. Read `references/per-component-grill.md` before asking user-facing decisions or writing the plan.
 
 ## Workflow
 
@@ -59,6 +59,11 @@ Use `references/red-flags.md`.
 - **Layout decision**: multiple valid mobile treatments with visible tradeoffs.
 
 Broad fixes come before individual decisions. Accepting a broad fix removes the affected child decisions.
+
+Red flag families:
+
+- direct fixes: fixed pixel widths, inputs below 16px, `h-screen` / `100vh`, fixed top/bottom UI without safe area, missing viewport meta, unjustified `overflow-hidden`, flex children that cannot shrink, static `whitespace-nowrap`
+- layout decisions: layout-heavy files with no responsive strategy, fixed grid columns, wide flex rows, wide tables, dynamic long text that cannot wrap
 
 ## Assumptions
 

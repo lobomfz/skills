@@ -5,73 +5,82 @@ description: "Code review. Use when the user asks to review branch changes, unco
 
 # Code Review
 
-Run a comprehensive code review, then synthesize findings.
+Run a delegated code-quality review and synthesize the findings.
 
 ## Scope
 
-1. **User specifies scope** — branch name, commit range, or file paths → review that
-2. **On a feature branch** — all changes vs main/master, including uncommitted and staged
-3. **On main/master with uncommitted changes** — review those
-4. **On main/master, clean tree** — review the latest commit
+1. If the user specifies a branch, commit range, pull request, or file paths, review that scope.
+2. On a feature branch, review changes against the default base branch, including staged and unstaged changes.
+3. On `main`/`master` with uncommitted changes, review the uncommitted changes.
+4. On `main`/`master` with a clean tree, review the latest commit.
 
-Always include uncommitted working tree changes. Use `git diff <base>` combined with `git diff --cached <base>`, not just `git diff <base>...HEAD`.
+Resolve the base ref before delegation. For dirty-tree-only reviews, use `HEAD`. If the repository has no commits, use Git's empty tree hash.
 
-## Instructions
+Always include staged and unstaged changes in scope. The reviewers will inspect both `git diff <base>` and `git diff --cached <base>`.
 
-Determine the base ref. If the runtime supports parallel agents and the user authorized them, launch focused agents. Otherwise, perform the same review lenses locally.
+## Delegation
 
-Each review lens starts from:
+Always spawn exactly three subagents in parallel with the same `cwd`, base ref, and scope. Use `fork_context: false` for all reviewers. If the user specifies a model or reasoning effort, use it; otherwise inherit the current defaults.
 
-```
-Base ref: [ref]. Run `git diff [base]` and `git diff --cached [base]` to find changed files and get the diff. Read full files for context but ONLY report findings on lines in the diff. Pre-existing code not in the diff is out of scope.
-```
+Pass each subagent only:
 
-Code marked with `// @human: reason` is a deliberate human decision — silently skip it, don't report findings on it.
+- `cwd`
+- base ref
+- user-requested scope, if any
+- the path to its reviewer file
 
-Then apply these lenses:
+Do not review locally while the subagents are running. The parent owns routing and synthesis, not independent review.
 
-### Lens 1: Correctness & Types
+Use these reviewer files:
 
-```
-Review for correctness problems (logic errors, race conditions, unhandled edge cases, silent error swallowing, missing awaits) AND every type system rule from the project/user instructions applied mechanically. Run the project's type checker.
-```
+- [IMPLEMENTATION_REVIEWER.md](IMPLEMENTATION_REVIEWER.md)
+- [SKILL_REVIEWER.md](SKILL_REVIEWER.md)
+- [VERIFICATION_REVIEWER.md](VERIFICATION_REVIEWER.md)
 
-### Lens 2: Design & Project Instructions
+## Parent Prompt Shape
 
-```
-Review against the project/user instructions, including design principles and operational rules (naming, syntax, imports/exports, runtime, dates, security).
-```
+Implementation reviewer:
 
-### Lens 3: Project Skills
-
-```
-Load and read every project skill relevant to the changed code. Review against every rule in every loaded skill. Violations are as serious as bugs.
-```
-
-### Lens 4: Tests
-
-```
-Review test coverage and quality. Check for mocked internals, implementation-detail testing, missing tests for changed logic, flaky patterns. Run relevant tests.
+```text
+Review implementation quality in [cwd] against base [base].
+Scope: [scope or "all changes in scope"].
+Follow [absolute path]/IMPLEMENTATION_REVIEWER.md.
 ```
 
-## Synthesize
+Skill reviewer:
 
-After every lens is complete:
-
-1. **Deduplicate** — keep the most detailed
-2. **Classify** — 🔴 Critical · 🟠 Warning · 🟡 Issue · ⚪ Nitpick
-3. **Order by severity**
-4. If total findings < 5, state that explicitly
-
-```
-## Review: [branch]
-🔴 N | 🟠 N | 🟡 N | ⚪ N
-
-1. 🔴 [file:line] Title
-   Lens: X | Rule: [specific rule violated]
-   `code` → Problem → Consequence
-
-### Clean lenses: [list]
+```text
+Review project skill compliance in [cwd] against base [base].
+Scope: [scope or "all changes in scope"].
+Follow [absolute path]/SKILL_REVIEWER.md.
 ```
 
-Every finding references the specific rule violated. No generic advice. No "looks good overall."
+Verification reviewer:
+
+```text
+Review verification quality in [cwd] against base [base].
+Scope: [scope or "all changes in scope"].
+Follow [absolute path]/VERIFICATION_REVIEWER.md.
+```
+
+## Synthesis
+
+After all three subagents finish:
+
+1. Deduplicate overlapping findings, keeping the clearest evidence.
+2. Do not invent findings that neither subagent reported.
+3. Classify and order findings by severity: Critical, Warning, Issue, Nitpick.
+4. If total findings are fewer than five, say so explicitly.
+
+Use this output shape:
+
+```text
+## Review: [scope]
+Critical N | Warning N | Issue N | Nitpick N
+
+1. [severity] [file:line] Title
+   Rule: [specific rule, when applicable]
+   Problem -> Consequence
+```
+
+Every finding must reference a concrete changed line. Avoid generic advice and broad "looks good overall" summaries.

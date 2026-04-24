@@ -15,7 +15,7 @@ This skill is for implementation, not just review. Check the git state before ed
 - `references/complex-components.md`: tables, large forms, dense grids, and rewrite choices.
 - `references/plan-mode.md`: applying a markdown plan created by `mobile-review`.
 
-Read only the reference needed for the current mode.
+Read `references/plan-mode.md` when applying a markdown plan from `mobile-review`. Read `references/transformations.md` before detecting or applying direct responsive fixes. Read `references/complex-components.md` before classifying or changing tables, large forms, dense grids, data-grid libraries, or column-like lists.
 
 ## Modes
 

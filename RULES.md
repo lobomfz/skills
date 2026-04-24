@@ -1,6 +1,6 @@
 # Coding Principles
 
-Before writing, understand what already exists: conventions, owners, schemas, tests, domain language, previous decisions, and applicable skills. When a skill clearly applies, use it before implementing; skills are accumulated project context. No code starts from zero.
+Before writing, understand what already exists: conventions, owners, schemas, tests, domain language, previous decisions, and applicable skills. When a change touches a technology, library, workflow, or domain covered by a skill, load that skill before implementing or reviewing. If you are unsure whether a skill applies, load it. Skills are accumulated project context. No code starts from zero.
 
 When principles conflict, use this order:
 
@@ -11,6 +11,12 @@ When principles conflict, use this order:
 5. Understanding before production.
 
 The goal is not to obey a checklist. The goal is to write code whose shape can be defended.
+
+# Skill Loading
+
+A skill is the whole directory, not only `SKILL.md`. `SKILL.md` is the entrypoint.
+
+When a skill applies, read `SKILL.md` first, then read the linked sibling files or `references/*` files that match the current task. Those files are as authoritative as `SKILL.md`. "Read only the relevant reference" means skip unrelated references, not skip references entirely.
 
 # Purpose and Simplicity
 

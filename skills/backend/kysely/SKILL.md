@@ -20,6 +20,35 @@ Use this skill for any Kysely query: selects, mutations, joins, transactions, fi
 - Batch independent writes. Prefer set-based SQL or batch upsert over sequential loops.
 - Do not extract `.values()` into a single-use variable. Inline the mutation input; use `.returning()` for values confirmed by the DB.
 
+## PostgreSQL Types
+
+The `pg` driver returns `bigint`, `numeric`, and `decimal` as strings. `int` and `integer` return numbers. Cast counts and numeric expressions in SQL when the result should be a number:
+
+```typescript
+eb.cast<number>(eb.fn.countAll(), "int4").as("count");
+```
+
+If an expression is already declared as `sql<number>`, trust that type and do not call `Number()` afterward.
+
+Use database schema types as the source of truth:
+
+| Situation | Use | Do not use |
+| --- | --- | --- |
+| Fixed values | `CREATE TYPE status AS ENUM (...)` | `VARCHAR` with a manual TS union |
+| Typed arrays | `text[]`, `integer[]` | `jsonb` |
+| Fixed JSON structure | Separate columns | `jsonb` |
+
+Use typed `jsonb` only for dynamic structures, discriminated unions, or config objects that are genuinely stored as one blob. Override generated types with `interface extends Omit<...>` and `ColumnType`; import `DB` from the override file, not the generated file.
+
+## Expression Builder
+
+Prefer expression-builder APIs when Kysely can express the query. Raw `sql` is for expressions the builder cannot express, not whole queries.
+
+- Use a CTE plus scalar subselects for multiple filtered aggregates over the same base data.
+- Use `eb.fn.coalesce(...)` instead of raw `coalesce(...)` when the builder can express it.
+- Use `eb.cast<T>(...)` for casts. `eb.cast` accepts string references directly; do not wrap them in `eb.ref()`.
+- Use `eb.exists(...)` for relation existence checks. Do not use `count(*) > 0`.
+
 ## Query Shape
 
 ```typescript
@@ -63,10 +92,10 @@ export const DbItems = {
 
 ## References
 
-Read only the reference that matches the query you are writing:
+Read the reference that matches the query before writing or judging it:
 
-- `references/joins.md` - joins, `jsonArrayFrom`, parent/children result shapes.
-- `references/expression-builder.md` - conditional aggregates, `coalesce`, `cast`, `exists`, raw SQL policy.
-- `references/postgres.md` - `pg` runtime types, enum schema choices, typed `jsonb` overrides.
-- `references/mutations.md` - optional fields, read envelopes, ownership predicates, batch upsert, `.$if`, `$narrowType`.
-- `BATCH-UPDATE.md` - detailed batch update/upsert patterns.
+- `references/joins.md` when related rows, joins, parent/children shapes, or fetch-plus-merge code appears.
+- `references/expression-builder.md` when aggregates, `coalesce`, `cast`, `exists`, or raw SQL appears.
+- `references/postgres.md` when runtime numeric types, enum schema choices, arrays, or typed `jsonb` appears.
+- `references/mutations.md` when insert/update/delete code, optional fields, read envelopes, ownership predicates, batch upsert, `.$if`, or `$narrowType` appears.
+- `BATCH-UPDATE.md` when many rows need different update values.

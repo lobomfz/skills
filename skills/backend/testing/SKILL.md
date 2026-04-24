@@ -19,7 +19,8 @@ Internal project code runs for real in tests. The environment changes: external 
 - Do not spend test budget on invented edge cases that do not belong to the domain.
 - Setup creates preconditions through the most direct domain path, not chains of entry points.
 - `bun test` loads `.env.test` automatically; do not use manual dotenv/bootstrap.
-- Never use `.resolves` or `.rejects`; await the promise and assert on the concrete value.
+- Tests change environment, not production exports. Keep real database/client exports direct; do not add factories, reset wrappers, or env parameters for tests.
+- Never use `.resolves` or `.rejects` for promise errors. In Bun tests, assert async failures with `expect(() => asyncCall()).toThrow(...)`; Bun observes rejected promises and this is the preferred concrete style.
 
 ## Decision Map
 
@@ -50,6 +51,18 @@ When code talks to something you do not own, simulate the boundary, not the inte
 - Database -> real schema with `:memory:`
 - Project modules -> never mock
 
+## GhostAPI Shape
+
+One external service mock is one exported `const`. `new Mock()` is already the factory; do not wrap it in a factory, class, reset helper, or configuration layer.
+
+Recurring setup/cleanup operations are helpers returned by the setup callback. The type of `mock.helpers` is inferred from that return value. Use `.reset()` directly.
+
+Use `.db` for ad-hoc queries in a specific test. If an operation appears in more than one test, move it into helpers.
+
+Pass fixed shared ports with `{ port }` or `{ base_url }` in the constructor. If configuration differs, change `new Mock(...)`; do not add another layer.
+
+Type request bodies in the route's third argument. Never assert handler bodies with `as`.
+
 ## What to Test
 
 Good test categories:
@@ -71,6 +84,7 @@ Pathological cases only belong when they are real product risks: huge paths, imp
 - [ ] `.env.test` changes the environment without DI
 - [ ] mock is `export const XMock = new Mock(...)`
 - [ ] recurring seeding/cleanup is in helpers
+- [ ] mock route bodies are typed through handler options, not `as`
 - [ ] no factories, wrappers, or `vi.mock()` for internal modules
 - [ ] setup uses the direct domain path, not intermediate entry points
 - [ ] time uses relative offsets, not hardcoded dates
@@ -78,10 +92,10 @@ Pathological cases only belong when they are real product risks: huge paths, imp
 
 ## References
 
-Read only the reference that matches the test you are writing:
+Read the reference that matches the test before writing or judging it:
 
-- `references/ghostapi.md` - HTTP mock server, helpers, body typing, organization.
-- `references/database-and-env.md` - `.env.test`, in-memory DB, production exports.
-- `references/setup-patterns.md` - direct domain setup, no entry-point chaining.
-- `references/time.md` - `setSystemTime`, relative offsets, dates in tests.
-- `references/assertions.md` - promise assertions without `.resolves` / `.rejects`.
+- `references/ghostapi.md` when external HTTP appears.
+- `references/database-and-env.md` when database, env, `.env.test`, or production exports appear.
+- `references/setup-patterns.md` when a test seeds or creates previous state.
+- `references/time.md` when `setSystemTime`, current time, relative dates, or temporal assertions appear.
+- `references/assertions.md` when promise values, async errors, `.resolves`, or `.rejects` appear.

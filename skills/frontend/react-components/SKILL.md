@@ -7,19 +7,15 @@ description: "React components. Use when creating, reviewing, refactoring, split
 
 Build clean JSX with behavior owned by hooks/domain code and UI split by real visual responsibility.
 
-## References
-
-- `references/splitting.md`: when/how to split components, folder naming, subcomponent naming.
-- `references/structure.md`: route `-components` / `-utils`, shared component organization.
-- `references/store-context.md`: Store + Context + Hooks separation and backend-derived types.
-
-Read only the reference needed for the current change.
-
 ## Component Shape
 
 Prefer simple function components. Use `forwardRef` only for generic primitives, usually under `components/ui/`.
 
 Split around visual/functional responsibility, local state, repeated structure, or clearer parent composition. Do not split only because JSX is long. Around 150-200 lines is a reread signal, not an automatic refactor.
+
+Name subcomponents with the parent prefix plus a responsibility suffix: `HeroSectionBackground`, `MediaCardInfo`, `DownloadsCardActions`.
+
+Keep strongly coupled subcomponents in the same file when they are small. Move them to separate files when they become large enough to obscure the parent. Use a folder when a component has three or more related subcomponents.
 
 Use `cn()` for class composition. Use CVA only for reusable components with meaningful variants.
 
@@ -36,6 +32,31 @@ Handlers use names like `handleSubmit` and `handleClick`.
 Follow the project schema library. Zod is only the default for new frontend projects.
 
 TanStack Query owns server state. Zustand/local state owns UI state. Context enters complex local trees when it removes real prop drilling.
+
+For complex local trees, keep the ownership split explicit:
+
+- hooks/utilities: pure reads, derived values, reusable local helpers
+- context: read-only server state and callbacks for the local tree
+- store: UI state such as selections, toggles, drafts, and filters
+- mutations: in the component that executes the action, or a shared hook when reused
+
+Do not export types from hooks. Backend-derived types live in `src/types/<domain>.ts`; local props and internal state stay inline.
+
+No barrel files. Import directly from each file.
+
+## File Organization
+
+Route-local components live in `-components/`; route-local hooks and utilities live in `-utils/`. Shared components grow into folders only when they have related files with a shared responsibility.
+
+Use consistent names that include the feature context:
+
+```text
+search/-components/search-input.tsx
+search/-components/search-result-card.tsx
+search/-utils/media-dialog.ts
+search/-utils/media-dialog-context.tsx
+search/-utils/media-dialog-store.ts
+```
 
 ## UI Behavior
 
@@ -56,3 +77,11 @@ Use toast only for non-obvious actions.
 Use `<button>` for actions and `<a>` for real navigation. Avoid clickable non-button elements.
 
 If an existing component constraint makes a clickable non-button unavoidable, add role, tabIndex, aria-label, focus-visible styling, and keyboard handling.
+
+## References
+
+References are expected context, not optional extras:
+
+- Read `references/splitting.md` before splitting, extracting, or reviewing component size and subcomponent organization.
+- Read `references/structure.md` before moving files, creating folders, or changing route/shared component organization.
+- Read `references/store-context.md` before changing Context, Zustand/local stores, shared hooks, mutations inside component trees, or backend-derived frontend types.
