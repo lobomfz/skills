@@ -1,6 +1,6 @@
 {
   "name": "@lobomfz/check",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "lobomfz",
   "type": "module",
   "scripts": {
@@ -20,6 +20,9 @@
   "exports": {
     "./oxlintrc": "./.oxlintrc.json",
     "./check/plugin": "./check/plugin.ts"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "ts-morph": "^28.0.0"
