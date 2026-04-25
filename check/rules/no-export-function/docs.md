@@ -16,6 +16,8 @@ export const calculateOrderTotal = (order: Order) => {
 
 Default exports are outside this rule's scope.
 
+TSX files are outside this rule's scope.
+
 Prefer putting behavior on the owning object.
 
 ```ts

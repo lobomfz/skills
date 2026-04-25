@@ -15,6 +15,7 @@ interface ParentLink {
 export type NodeWithParent<T extends EstreeNode = EstreeNode> = T & ParentLink
 
 export interface RuleContext {
+  filename: string
   report(descriptor: { message: string; node: EstreeNode }): void
 }
 

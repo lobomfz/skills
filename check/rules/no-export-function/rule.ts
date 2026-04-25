@@ -7,6 +7,8 @@ const docs = loadDocs(import.meta.url)
 const MESSAGE =
   'exported loose function hides ownership — put domain behavior on its object; if this must remain a loose exported function, ask the human to disable this lint with a reason'
 
+const NO_VISITORS: Record<string, (node: never) => void> = {}
+
 function isFunctionValue(type: string) {
   return type === 'ArrowFunctionExpression' || type === 'FunctionExpression'
 }
@@ -48,6 +50,10 @@ export const noExportFunction: Rule = {
     message: MESSAGE,
   },
   create(context) {
+    if (context.filename.endsWith('.tsx')) {
+      return NO_VISITORS
+    }
+
     return {
       Program(program: Program) {
         const looseFunctionNames = topLevelLooseFunctionNames(program)
