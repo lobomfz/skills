@@ -6,6 +6,7 @@ import { noEmptyObjectDefault } from "./rules/no-empty-object-default/rule.ts";
 import { noErrorInstanceNarrowing } from "./rules/no-error-instance-narrowing/rule.ts";
 import { noExportFunction } from "./rules/no-export-function/rule.ts";
 import { noNullishTypeLaundering } from "./rules/no-nullish-type-laundering/rule.ts";
+import { noQueryOptionsQueryKey } from "./rules/no-query-options-query-key/rule.ts";
 import { noTernaryAsOptionalChain } from "./rules/no-ternary-as-optional-chain/rule.ts";
 import { noTernaryInJsx } from "./rules/no-ternary-in-jsx/rule.ts";
 import { noTrivialAlias } from "./rules/no-trivial-alias/rule.ts";
@@ -25,6 +26,7 @@ const plugin: Plugin = {
     "prefer-interface-extends": preferInterfaceExtends,
     "no-error-instance-narrowing": noErrorInstanceNarrowing,
     "no-export-function": noExportFunction,
+    "no-query-options-query-key": noQueryOptionsQueryKey,
     "no-ternary-as-optional-chain": noTernaryAsOptionalChain,
     "no-ternary-in-jsx": noTernaryInJsx,
   },
