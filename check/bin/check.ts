@@ -1,8 +1,9 @@
 #!/usr/bin/env bun
 
 import { existsSync, mkdtempSync } from 'node:fs'
-import { join, resolve } from 'node:path'
 import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
+
 import { runUnusedReturnFieldsCheck } from '../rules/no-unused-return-fields/rule.ts'
 
 type CpdReport = {
@@ -19,6 +20,9 @@ const FIX = process.argv.includes('--fix')
 const LINT_DIRS = ['src', 'tests', 'check'].filter((dir) =>
   existsSync(join(ROOT, dir))
 )
+const OXLINT_CONFIG = existsSync(join(ROOT, '.oxlintrc.json'))
+  ? join(ROOT, '.oxlintrc.json')
+  : join(PACKAGE_ROOT, '.oxlintrc.json')
 const KNIP_CONFIGS = [
   'knip.json',
   'knip.jsonc',
@@ -106,7 +110,7 @@ async function runLint() {
     'oxlint-tsgolint',
     'oxlint',
     '--config',
-    join(PACKAGE_ROOT, '.oxlintrc.json'),
+    OXLINT_CONFIG,
     '--type-aware',
     ...fixArgs,
     ...LINT_DIRS,
