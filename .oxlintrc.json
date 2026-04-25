@@ -9,7 +9,7 @@
     "lobomfz/no-empty-object-default": "error",
     "lobomfz/prefer-interface-extends": "error",
     "lobomfz/no-error-instance-narrowing": "error",
-    "lobomfz/no-export-function": "error",
+    "lobomfz/no-export-function": "off",
     "lobomfz/no-ternary-as-optional-chain": "error",
     "lobomfz/no-ternary-in-jsx": "error",
 
@@ -25,7 +25,7 @@
     "strict-boolean-expressions": "off",
     "no-confusing-void-expression": "off",
     "no-misused-promises": "off",
-    "no-floating-promises": "warn",
+    "no-floating-promises": "off",
     "require-array-sort-compare": "off",
     "no-unsafe-return": "off",
     "no-loop-func": "off",
@@ -50,7 +50,7 @@
     "no-unsafe-call": "off",
     "return-await": "off"
   },
-  "jsPlugins": ["./check/plugin.ts"],
+  "jsPlugins": ["./dist/plugin.js"],
   "categories": {
     "correctness": "error",
     "perf": "error",

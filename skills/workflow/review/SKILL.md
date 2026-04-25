@@ -1,6 +1,7 @@
 ---
 name: review
 description: "Code review. Use when the user asks to review branch changes, uncommitted changes, a diff, or a pull request."
+disable-model-invocation: true
 ---
 
 # Code Review

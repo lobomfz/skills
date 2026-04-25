@@ -1,9 +1,11 @@
 {
   "name": "@lobomfz/check",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "author": "lobomfz",
   "type": "module",
   "scripts": {
+    "build": "bun ./scripts/build.ts",
+    "prepack": "bun run build",
     "install:claude-skills": "bun ./scripts/install-claude-skills.ts"
   },
   "files": [
@@ -11,15 +13,16 @@
     "skills",
     "scripts",
     "check",
+    "dist",
     ".oxlintrc.json",
     "knip.json"
   ],
   "bin": {
-    "lobomfz-check": "./check/bin/check.ts"
+    "lobomfz-check": "./dist/bin/check.js"
   },
   "exports": {
     "./oxlintrc": "./.oxlintrc.json",
-    "./check/plugin": "./check/plugin.ts"
+    "./check/plugin": "./dist/plugin.js"
   },
   "publishConfig": {
     "access": "public"

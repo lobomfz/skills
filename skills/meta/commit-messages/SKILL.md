@@ -1,6 +1,7 @@
 ---
 name: commit-messages
 description: "Commit messages. Use when generating, suggesting, editing, or writing a git commit message."
+disable-model-invocation: true
 ---
 
 # Commit Messages
