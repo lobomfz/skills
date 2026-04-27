@@ -1,6 +1,9 @@
 ---
 name: write-a-skill
 description: "Agent skills. Use when creating, writing, reviewing, or updating a skill."
+metadata:
+  - key: "source"
+    value: "https://github.com/mattpocock/skills"
 ---
 
 # Writing Skills
@@ -61,7 +64,7 @@ description: Brief description of capability. Use when [specific triggers].
 
 The description has one job: telling the agent **when** to trigger the skill. Nothing else.
 
-It is not a summary of the skill's rules or content. The agent reads the full SKILL.md once triggered — the description only needs to get it there. Every word spent describing *what's inside* is a word not spent on triggers.
+It is not a summary of the skill's rules or content. The agent reads the full SKILL.md once triggered — the description only needs to get it there. Every word spent describing _what's inside_ is a word not spent on triggers.
 
 **Format**:
 
@@ -81,7 +84,7 @@ Extract text and tables from PDF files, fill forms, merge documents. Use when wo
 Use async/await everywhere, prefer interface over type, never use any, camelCase for variables, snake_case at external boundaries.
 ```
 
-The bad example tells the agent *what's inside* the skill — useless for deciding whether to load it. It just needs to know: this is the TypeScript skill, trigger it on .ts/.tsx work.
+The bad example tells the agent _what's inside_ the skill — useless for deciding whether to load it. It just needs to know: this is the TypeScript skill, trigger it on .ts/.tsx work.
 
 **Bad — too vague to distinguish**:
 
