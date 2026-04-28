@@ -38,7 +38,7 @@ For complex local trees, keep the ownership split explicit:
 - hooks/utilities: pure reads, derived values, reusable local helpers
 - context: read-only server state and callbacks for the local tree
 - store: UI state such as selections, toggles, drafts, and filters
-- mutations: in the component that executes the action, or a shared hook when reused
+- Each component owns at most one mutation; place it in the component that presents that action's flow, and extract reused mutation behavior into a shared hook.
 
 Do not export types from hooks. Backend-derived types live in `src/types/<domain>.ts`; local props and internal state stay inline.
 

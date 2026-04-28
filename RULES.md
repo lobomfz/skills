@@ -94,11 +94,15 @@ Mappings carrying domain meaning live with that domain, usually in `constants/[d
 
 # Objects, Classes, and Modules
 
-Objects group independent domain operations. `DbSchedules.listUpcoming()` says the operation belongs to schedules and has no memory between calls. Loose functions hide ownership; domain operations live in the domain object.
+Objects group independent domain operations. `DbSchedules.listUpcoming()` says the operation belongs to schedules and has no memory between calls. Top-level loose functions hide ownership; domain operations live in the domain object, even when the object has a single method today.
+
+A new feature starts with its domain object, not with a free function waiting for company. The first operation declares the home; later operations join the object instead of accumulating as siblings. `export const FeatureX = { ... }` is the default shape; a top-level `export function` is the exception and needs a cross-cutting reason no domain owns.
+
+The rule governs exports. A helper used only inside one file is local readability, not ownership; non-exported functions inside a module do not need to be wrapped.
 
 Classes are temporary brains with identity. Use a class when constructor context colors many methods: credentials, current user, request context, a long orchestration, or an API client. If many methods repeat the same first parameter, the object probably has hidden identity and should be a class.
 
-A stateless class is a namespace in disguise. An object whose methods all receive the same context is a process in disguise. Pick the shape that tells the truth.
+A class needs a job: state, identity, or `private` helpers that organize the public surface. Without one, it is a namespace in disguise. An object whose methods all receive the same context is a process in disguise. Pick the shape that tells the truth.
 
 Use constructor parameter properties when fields only store constructor arguments unchanged. Access the context through the stored object instead of splitting it into duplicated fields.
 
@@ -107,6 +111,8 @@ Data that exists only during one method call is not class state. Pass it through
 Do not wrap a library for hypothetical swaps. Use the library directly unless the wrapper hides real complexity today. The library API is the contract and carries the ecosystem's knowledge.
 
 Internal client mappings are private methods, not exported functions. The caller should not learn how a client converts external states.
+
+A class file belongs to the class. Helpers used only by the class are `private` methods, not loose functions sitting beside it. If the helper is part of the class's job, it joins the class; if it is not, it lives in another file.
 
 Do not inject `env`, config, database handles, or clients just for tests. Direct imports are fine unless they hide variable identity or mutable state.
 

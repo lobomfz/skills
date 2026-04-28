@@ -14,7 +14,6 @@ Three files in `-utils/`:
 **Rules:**
 - **Store**: UI state (selections, toggles, inputs)
 - **Context**: server state read-only (queries, derived data)
-- **Mutations**: in the component that executes the action, or in a shared hook when the mutation owns reused invalidation/toasts
 - **No barrel file** - direct imports from each file
 
 ```tsx
