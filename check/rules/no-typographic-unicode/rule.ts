@@ -23,7 +23,11 @@ export const noTypographicUnicode: Rule = {
           return
         }
 
-        if (!FORBIDDEN.test(node.value)) {
+        if (!node.raw) {
+          return
+        }
+
+        if (!FORBIDDEN.test(node.raw)) {
           return
         }
 
