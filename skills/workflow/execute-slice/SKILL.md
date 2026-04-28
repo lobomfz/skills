@@ -1,6 +1,6 @@
 ---
-name: apply-slice
-description: "Implement the agreed slice. Use when the user invokes $apply-slice or wants to implement a slice agreed via slice-prd."
+name: execute-slice
+description: "Implement the agreed slice. Use when the user invokes $execute-slice or wants to implement a slice agreed via slice-prd."
 disable-model-invocation: true
 ---
 

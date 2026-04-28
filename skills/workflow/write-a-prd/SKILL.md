@@ -39,7 +39,7 @@ A LONG, numbered list of user stories with checkboxes. Each user story should be
 1. [ ] As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisions about my spending
 </user-story-example>
 
-This list of user stories should be extremely extensive and cover all aspects of the feature. Checkboxes are filled by apply-slice as user stories are delivered.
+This list of user stories should be extremely extensive and cover all aspects of the feature. Checkboxes are filled by execute-slice as user stories are delivered.
 
 ## Out of Scope
 
