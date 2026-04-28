@@ -34,6 +34,10 @@ This also applies when mapping external SDK data to `Insertable<T>`. Do not manu
 })
 ```
 
+## Defaults in INSERTs
+
+In `.values()`, omit fields equal to the column default. Pass only when overriding.
+
 ## Read Contracts
 
 `executeTakeFirst()` returns `T | undefined`. Do not convert it to `null`. If the method is a read contract consumed outside the DB layer, return an envelope like `{ data }`.

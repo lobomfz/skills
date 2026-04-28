@@ -30,6 +30,8 @@ In reviews, judge by this principles, applicable skills, and the current codebas
 
 Start from usage. The caller knows what it needs. If coordination fits clearly in the caller, it does not need a new owner. Add an abstraction only after the local code proves that directness is worse.
 
+Defaults reflect usage. When most callers override a default the same way, flip the default; add an opt-in for the minority.
+
 Do not create intermediate variables just to use them once. Inline unless reuse or readability justifies the name. Do not destructure only to pass the values immediately to the next call.
 
 Comments, JSDoc, READMEs, PR templates, and TODOs are not proactive output. Add them only when the user asked or the work is genuinely pending. Function names, parameter names, and types should carry the normal explanation.

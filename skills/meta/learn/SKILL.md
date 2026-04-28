@@ -12,20 +12,8 @@ The user wants to encode a behavior into a skill. Use the grill-me skill, one st
 
 While reading the existing skills, look for issues that may explain the failure — like a weak trigger to a reference, a duplicated rule, or a misplaced one. The fix may be structural rather than a new rule.
 
-Read EXAMPLES.md just before proposing the final wording.
+Use the skill-principles skill just before proposing the final wording.
 
 EXTREMELY_IMPORTANT: picture an entirely different situation where the rule still holds. The code that triggered /learn does not reappear. Any example illustrates the rule through an unrelated case. You MUST generalize the rule itself AND the example.
 
 Apply only after the user approves it.
-
-The skill itself follows these principles.
-
-Brevity is load-bearing. Every line earns its place. The LLM default is generic scaffolding — "Quick start", "Workflows", "Review Checklist" — shape without substance.
-
-A skill's description names the trigger, not the content. Its only job is to get the skill loaded at the right moment. Do not summarize what's inside; the agent reads the body once loaded.
-
-Rules respond to observed failures. Every directive traces back to a real failure pattern. Imagined edge cases add surface area while preventing nothing. If you do not have a concrete observation behind a rule, the rule is not ready.
-
-Negative directives come only after positive ones fail. First-pass is positive. Add "do not Y" only after "do X" has been observed failing in practice — specific language the agent cannot reinterpret.
-
-Do not standardize the agent's output. Describe what the agent does, not how to format the response.
