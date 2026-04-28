@@ -1,12 +1,13 @@
 import type { IfStatement, Node } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { AST_SKIP_KEYS, FUNCTION_NODE_TYPES } from '../../ast.ts'
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'await inside if condition is banned — extract to a const first: `const x = await ...; if (!x) { ... }`'
+  'await inside if condition is banned; extract to a const first: `const x = await ...; if (!x) { ... }`'
 
 function findAwait(node: unknown): Node | null {
   if (!node || typeof node !== 'object') {

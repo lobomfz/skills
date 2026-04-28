@@ -1,11 +1,12 @@
 import type { CallExpression, MemberExpression } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'do not read `queryOptions().queryKey` — call `queryKey()` directly'
+  'do not read `queryOptions().queryKey`; call `queryKey()` directly'
 
 function isNamedProperty(node: MemberExpression, name: string) {
   if (node.computed) {

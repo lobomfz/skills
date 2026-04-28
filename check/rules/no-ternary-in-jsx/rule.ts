@@ -1,11 +1,12 @@
 import type { ConditionalExpression } from 'estree'
-import type { NodeWithParent, Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { NodeWithParent, Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'ternary rendering JSX children — use `{!!cond && <A />}` + `{!cond && <B />}` instead'
+  'ternary rendering JSX children; use `{!!cond && <A />}` + `{!cond && <B />}` instead'
 
 type ParentNode = {
   type?: string

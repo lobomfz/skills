@@ -1,13 +1,14 @@
 import type { MemberExpression, Node, VariableDeclarator } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MIN_DEPTH = 3
 
 const MESSAGE =
-  'local name repeats the final property — inline the access. Aliases are justified when hiding real navigation (deep chains), not when renaming 1:1.'
+  'local name repeats the final property; inline the access. Aliases are justified when hiding real navigation (deep chains), not when renaming 1:1.'
 
 function memberExpressionDepth(node: MemberExpression) {
   let depth = 0

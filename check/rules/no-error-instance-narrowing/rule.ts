@@ -1,15 +1,16 @@
 import type { BinaryExpression, CatchClause, Node } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { AST_SKIP_KEYS, FUNCTION_NODE_TYPES } from '../../ast.ts'
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const UNKNOWN_MESSAGE =
-  '`catch (err: unknown)` forces narrowing at every use site — use `catch (err: any)` and access `err.message` directly'
+  '`catch (err: unknown)` forces narrowing at every use site; use `catch (err: any)` and access `err.message` directly'
 
 const INSTANCEOF_MESSAGE =
-  'narrowing `err instanceof Error` in catch is noise — 99% of throws are Error instances; use `catch (err: any)` and access `err.message` directly'
+  'narrowing `err instanceof Error` in catch is noise: 99% of throws are Error instances; use `catch (err: any)` and access `err.message` directly'
 
 interface ParamWithAnnotation {
   type: string
@@ -45,7 +46,7 @@ function walkForInstanceofError(
 
   if (
     astNode.type === 'BinaryExpression' &&
-    (astNode).operator === 'instanceof'
+    astNode.operator === 'instanceof'
   ) {
     const bin = astNode
     const left = bin.left as Node

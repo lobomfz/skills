@@ -4,7 +4,7 @@ import type { Identifier, Symbol as TsSymbol } from 'ts-morph'
 import { Node, Project } from 'ts-morph'
 
 const MESSAGE =
-  'returned field never read by any caller — remove the field from the producer, or add the caller that should consume it'
+  'returned field never read by any caller; remove the field from the producer, or add the caller that should consume it'
 
 type Candidate = {
   nameNode: Identifier
@@ -755,7 +755,7 @@ export function runUnusedReturnFieldsCheck(cwd: string) {
   })
 
   for (const { file, line, col, name } of issues) {
-    console.error(`${relative(file)}:${line}:${col} — \`${name}\`: ${MESSAGE}`)
+    console.error(`${relative(file)}:${line}:${col} \`${name}\`: ${MESSAGE}`)
   }
 
   return 1

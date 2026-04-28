@@ -14,6 +14,7 @@
     "lobomfz/no-query-options-query-key": "error",
     "lobomfz/no-ternary-as-optional-chain": "error",
     "lobomfz/no-ternary-in-jsx": "error",
+    "lobomfz/no-typographic-unicode": "error",
 
     "no-unused-vars": "warn",
     "no-await-in-loop": "off",

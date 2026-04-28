@@ -1,12 +1,13 @@
 import type { FunctionDeclaration, FunctionExpression, Node } from 'estree'
-import type { Rule, RuleContext } from '../../types.ts'
+
 import { AST_SKIP_KEYS, FUNCTION_NODE_TYPES } from '../../ast.ts'
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule, RuleContext } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'function body is a single return with compound boolean — split into early returns: `if (!condA) { return false }; if (!condB) { return false }; return true`'
+  'function body is a single return with compound boolean; split into early returns: `if (!condA) { return false }; if (!condB) { return false }; return true`'
 
 function countLogicalOps(node: unknown): number {
   if (!node || typeof node !== 'object') {
@@ -64,7 +65,7 @@ function makeChecker(context: RuleContext) {
   }
 
   return function checkFunction(
-    node: FunctionDeclaration | FunctionExpression,
+    node: FunctionDeclaration | FunctionExpression
   ) {
     if (node.body.body.length !== 1) {
       return

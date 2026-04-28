@@ -1,11 +1,12 @@
 import type { Expression, LogicalExpression } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  '`?? null`/`?? undefined` is type laundering — it translates one absence value to another (cosmetic) or is noop. Fix the shape upstream and handle absence with an if, not by translating the value.'
+  '`?? null`/`?? undefined` is type laundering: it translates one absence value to another (cosmetic) or is noop. Fix the shape upstream and handle absence with an if, not by translating the value.'
 
 function isNullOrUndefined(node: Expression) {
   if (node.type === 'Literal' && node.value === null) {

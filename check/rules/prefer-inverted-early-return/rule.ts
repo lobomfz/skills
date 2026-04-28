@@ -1,11 +1,12 @@
 import type { IfStatement, Node, ReturnStatement, Statement } from 'estree'
-import type { NodeWithParent, Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { NodeWithParent, Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'invert: early-return the fallback, let the happy path flow below — `if (!x) { return fallback } return x`'
+  'invert: early-return the fallback, let the happy path flow below. `if (!x) { return fallback } return x`'
 
 function isSameExpression(a: Node, b: Node): boolean {
   if (a.type !== b.type) {

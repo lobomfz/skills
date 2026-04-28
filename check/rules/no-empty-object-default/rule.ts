@@ -1,11 +1,12 @@
 import type { AssignmentPattern } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'empty object default hides whether the value was absent or forgot — remove the default and let the caller/source be explicit'
+  'empty object default hides whether the value was absent or forgot; remove the default and let the caller/source be explicit'
 
 export const noEmptyObjectDefault: Rule = {
   meta: {

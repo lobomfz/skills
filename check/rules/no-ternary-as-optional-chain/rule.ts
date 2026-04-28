@@ -1,11 +1,12 @@
 import type { ConditionalExpression, Expression } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'ternary guard over `undefined` is optional chaining spelled out — use `x?.y`'
+  'ternary guard over `undefined` is optional chaining spelled out; use `x?.y`'
 
 function isUndefinedExpression(node: Expression) {
   if (node.type === 'Identifier' && node.name === 'undefined') {

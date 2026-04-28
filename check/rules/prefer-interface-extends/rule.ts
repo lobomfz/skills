@@ -1,11 +1,12 @@
 import type { Node } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'intersection of a named type and an inline object — prefer `interface X extends Y { ... }` (resolves statically, faster types, cleaner on hover)'
+  'intersection of a named type and an inline object; prefer `interface X extends Y { ... }` (resolves statically, faster types, cleaner on hover)'
 
 interface TSTypeAliasDeclaration {
   type: 'TSTypeAliasDeclaration'

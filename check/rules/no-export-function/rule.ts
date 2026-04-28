@@ -1,11 +1,12 @@
 import type { Program } from 'estree'
-import type { Rule } from '../../types.ts'
+
 import { loadDocs } from '../../loadDocs.ts'
+import type { Rule } from '../../types.ts'
 
 const docs = loadDocs(import.meta.url)
 
 const MESSAGE =
-  'exported loose function hides ownership — put domain behavior on its object; if this must remain a loose exported function, ask the human to disable this lint with a reason'
+  'exported loose function hides ownership: put domain behavior on its object; if this must remain a loose exported function, ask the human to disable this lint with a reason'
 
 const NO_VISITORS: Record<string, (node: never) => void> = {}
 
