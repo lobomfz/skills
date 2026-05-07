@@ -14,12 +14,15 @@ type CpdReport = {
   }[]
 }
 
+type KnipConfig = {
+  entry?: string | string[]
+  project?: string | string[]
+}
+
 const ROOT = process.cwd()
 const PACKAGE_ROOT = resolve(import.meta.dirname, '../..')
 const FIX = process.argv.includes('--fix')
-const LINT_DIRS = ['src', 'tests', 'check'].filter((dir) =>
-  existsSync(join(ROOT, dir))
-)
+const DEFAULT_LINT_DIRS = ['src', 'tests', 'check']
 const OXLINT_CONFIG = existsSync(join(ROOT, '.oxlintrc.json'))
   ? join(ROOT, '.oxlintrc.json')
   : join(PACKAGE_ROOT, '.oxlintrc.json')
@@ -95,8 +98,67 @@ async function runTypes() {
   return code
 }
 
+function configPatterns(value: string | string[] | undefined) {
+  if (!value) {
+    return []
+  }
+
+  if (typeof value === 'string') {
+    return [value]
+  }
+
+  return value
+}
+
+function lintTarget(pattern: string) {
+  const [target] = pattern.replace(/^\.\//, '').split('/')
+
+  if (!target || target.includes('*') || target.startsWith('!')) {
+    return
+  }
+
+  return target
+}
+
+async function lintDirs() {
+  const fallback = DEFAULT_LINT_DIRS.filter((dir) => existsSync(join(ROOT, dir)))
+
+  if (!existsSync(join(ROOT, 'knip.json'))) {
+    return fallback
+  }
+
+  const config = (await Bun.file(join(ROOT, 'knip.json'))
+    .json()
+    .catch(() => null)) as KnipConfig | null
+
+  if (!config) {
+    return fallback
+  }
+
+  const dirs = new Set<string>()
+
+  for (const pattern of [
+    ...configPatterns(config.entry),
+    ...configPatterns(config.project),
+  ]) {
+    const target = lintTarget(pattern)
+
+    if (target && existsSync(join(ROOT, target))) {
+      dirs.add(target)
+    }
+  }
+
+  if (dirs.size === 0) {
+    return fallback
+  }
+
+  return [...dirs]
+}
+
 async function runLint() {
-  if (LINT_DIRS.length === 0) {
+  const targets = await lintDirs()
+
+  if (targets.length === 0) {
     return 0
   }
 
@@ -113,7 +175,7 @@ async function runLint() {
     OXLINT_CONFIG,
     '--type-aware',
     ...fixArgs,
-    ...LINT_DIRS,
+    ...targets,
   ])
 }
 
