@@ -27,4 +27,4 @@ When a rule bans something, the skill body shouldn't contain what it banned. The
 
 Cut conversational justifications from skills. Keep only durable context.
 
-Read references/examples.md alongside for wording samples.
+Read references/examples.md for wording samples.
