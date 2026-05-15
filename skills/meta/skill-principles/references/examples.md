@@ -14,7 +14,7 @@ Verbose:
 
 Tight:
 
-> Derive types from their source; do not redeclare shapes that already exist.
+> Derive types from their source. Do not redeclare shapes that already exist.
 
 Verbose:
 

@@ -12,8 +12,6 @@ The user wants to encode a behavior into a skill. Use the grill-me skill, one st
 
 While reading the existing skills, look for issues that may explain the failure — like a weak trigger to a reference, a duplicated rule, or a misplaced one. The fix may be structural rather than a new rule.
 
-Use the skill-principles skill just before proposing the final wording.
-
-EXTREMELY_IMPORTANT: picture an entirely different situation where the rule still holds. The code that triggered /learn does not reappear. Any example illustrates the rule through an unrelated case. You MUST generalize the rule itself AND the example.
+Use the skill-principles skill just before proposing final wording. Its EXTREMELY_IMPORTANT generalization rule is mandatory: the triggering case does not reappear in the proposed rule or examples.
 
 Apply only after the user approves it.
